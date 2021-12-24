@@ -1,0 +1,84 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "RentCars API",
+        "description": "RentCars API Fully based on RocketSeat's course",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Jairo Luckas",
+            "email": "jairoluckas1@gmail.com"
+        }                
+    },
+    "paths":{
+        "/categories": {
+            "post": {
+                "tags": ["categories"],
+                "summary": "Create a new category",
+                "description": "Create a new category",
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "Object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"                                        
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Category 1",
+                                    "description": "Category 1 description"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created"
+                    },
+                    "400": {
+                        "description": "Invalid category object"
+                    },
+                    "500": {
+                        "description": "Category already exists"
+                    }
+                }                
+            },
+            "get": {
+                "tags": ["categories"],
+                "summary": "Get all categories",
+                "description": "Get all categories",
+                "responses": {
+                    "200": {
+                        "description": "Categories retrieved",
+                        "content":{
+                            "application/json": {
+                                "schema":{
+                                    "type": "array",
+                                    "items": {
+                                        "type": "Object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }            
+            }
+        }
+    }
+}

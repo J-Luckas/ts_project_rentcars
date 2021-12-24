@@ -1,14 +1,15 @@
+import 'reflect-metadata';
 import { Request, Response } from 'express';
+
 import CreateCategoryUseCase from './CreateCategoryUseCase';
+import { container } from 'tsyringe';
 
 class CreateCategoryController {
 
-    constructor( private createdCategoryUseCase: CreateCategoryUseCase ){}
-
     async handle( req :Request, res: Response ): Promise<Response>{
         const { name, description } = req.body;        
-
-        await this.createdCategoryUseCase.execute( { name, description } );
+        const createdCategoryUseCase = container.resolve(CreateCategoryUseCase);
+        await createdCategoryUseCase.execute( { name, description } );
         
         return res.sendStatus(201);
     }

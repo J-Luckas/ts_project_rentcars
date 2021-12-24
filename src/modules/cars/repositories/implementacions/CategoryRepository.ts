@@ -1,47 +1,40 @@
-import Category from "../../model/Category";
+import { getRepository, Repository } from "typeorm";
+import Category from "../../entities/Category";
 import ICategoriesRepository, { iCreateCategoryDTO } from "../ICategoriesRepository";
 
 class CategoryRepository implements ICategoriesRepository{
 
-    private categories: Category[];
+    private repository: Repository<Category>;
 
-    private static INSTANCE: CategoryRepository = new CategoryRepository();
-
-    private constructor(){
-        this.categories = [];
+    constructor(){
+        this.repository = getRepository( Category );
     }
 
-    public static getInstance(): CategoryRepository{
-        if( !CategoryRepository.INSTANCE ){
-            CategoryRepository.INSTANCE = new CategoryRepository();
-        }
-
-        return CategoryRepository.INSTANCE;
+    async getCategories(): Promise<Category[]>{
+        const categories = await this.repository.find();
+        return categories;
     }
 
-    getCategories(): Category[]{
-        return this.categories;
+    async create( { name, description }: iCreateCategoryDTO ): Promise<void>{
+        const category = this.repository.create( { name, description } );
+        
+        await this.repository.save( category );
     }
 
-    create( { name, description }: iCreateCategoryDTO ): void{
-        const category = new Category( name, description );    
-        this.categories.push( category );
-    }
+    // delete( id: string ): void{
+    //     const categoryIndex = this.categories.findIndex( category => category.id === id );
+    //     this.categories.splice( categoryIndex, 1 );
+    // }
 
-    delete( id: string ): void{
-        const categoryIndex = this.categories.findIndex( category => category.id === id );
-        this.categories.splice( categoryIndex, 1 );
-    }
+    // update( id: string, { name, description }: iCreateCategoryDTO ): void{
+    //     const categoryIndex = this.categories.findIndex( category => category.id === id );
+    //     const category = this.categories[categoryIndex];
+    //     if( name ) category.name = name;
+    //     if( description ) category.description = description;
+    // }
 
-    update( id: string, { name, description }: iCreateCategoryDTO ): void{
-        const categoryIndex = this.categories.findIndex( category => category.id === id );
-        const category = this.categories[categoryIndex];
-        if( name ) category.name = name;
-        if( description ) category.description = description;
-    }
-
-    findByName( name: string ): Category | undefined{
-        return this.categories.find( category => category.name === name );
+    async findByName( name: string ): Promise<Category | undefined>{
+        return await this.repository.findOne( { name } );
     }
 }
 

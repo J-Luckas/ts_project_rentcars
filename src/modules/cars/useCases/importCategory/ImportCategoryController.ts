@@ -11,7 +11,7 @@ export class ImportCategoryController {
         const importCategoryUseCase = container.resolve(ImportCategoryUseCase);
         await importCategoryUseCase.execute( file );
         
-        return res.json({ ok: true });
+        return res.sendStatus(201);
     }
 
 }

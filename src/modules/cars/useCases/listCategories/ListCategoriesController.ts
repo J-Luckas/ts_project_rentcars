@@ -5,7 +5,7 @@ import { ListCategoriesUseCase } from './ListCategoriesUseCase';
 export class ListCategoriesController {    
 
 
-    async handle(req: Request, res: Response): Promise<Response> {
+    async handle(req: Request, res: Response): Promise<Response> {                 
         const listCategoriesUseCase = container.resolve(ListCategoriesUseCase);
         return res.json( await listCategoriesUseCase.execute() );
     }

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ListSpecificationsUseCase } from "./ListSpecificationsUseCase";
+import { AppError } from '../../../../errors/AppError';
 
 
 export class ListSpecificationsController{
@@ -10,7 +11,7 @@ export class ListSpecificationsController{
         try{        
             return res.status(200).json( this.listSpecificationsUseCase.execute() );
         }catch(err){
-            throw new Error(err);
+            throw new AppError(err);
         }
     }
 }

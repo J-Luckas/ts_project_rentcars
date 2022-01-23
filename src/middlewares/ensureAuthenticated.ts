@@ -27,6 +27,8 @@ export async function ensureAuthenticated( req: Request, res: Response, next: Ne
         if( !user ){
             throw new AppError('User not found', 401);
         }
+          
+        req.user = {id: user_id};
         next();
     }catch( err ){
         throw new AppError(`Invalid token: ${err.message}`, 401);

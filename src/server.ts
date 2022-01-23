@@ -19,6 +19,7 @@ app.use(router);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if( err instanceof AppError){
+    console.log(err);
     return res
             .status(err.statusCode)
             .json({

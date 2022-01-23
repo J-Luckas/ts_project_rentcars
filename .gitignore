@@ -2,6 +2,7 @@
 /.vscode
 package-lock.json
 ormconfig.json
-tmp/*
+tmp/*.*
+tmp/avatar/*.*
 !tmp/.gitkeep 
 docker-compose.yml
